@@ -32,7 +32,9 @@ public class NewRestRoute extends RouteBuilder {
                 .transform().simple("Message Processed: ${body}")
                 .endRest();
 
-
+        from("timer:startBatch?repeatCount=1")
+                .routeId("timerRunOnceId")
+                .to("controlbus:route?routeId=batchMessageRouteId&action=start");
 
         from("direct:persistMessage")
                 .routeId("persistMessageRouteId")

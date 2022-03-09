@@ -13,6 +13,7 @@ public class BatchMessageProcessingRoute extends RouteBuilder {
 
         from("timer:batch?period=60000")
                 .routeId("batchMessageRouteId")
+                .autoStartup(false)
                 .to("jpa:"+ InboundNameAddress.class.getName()+"?namedQuery=fetchAllRows")
                 .split(body())
                 .log(LoggingLevel.INFO, "Read Row: ${body}")

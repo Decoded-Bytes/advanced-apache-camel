@@ -1,10 +1,12 @@
 package com.decodedbytes.routes;
 
 import com.decodedbytes.beans.InboundNameAddress;
+import com.decodedbytes.policies.CustomRoutePolicy;
 import org.apache.camel.Exchange;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.rest.RestBindingMode;
+import org.apache.camel.spi.RoutePolicy;
 import org.springframework.stereotype.Component;
 
 import javax.jms.JMSException;
@@ -32,9 +34,18 @@ public class NewRestRoute extends RouteBuilder {
                 .transform().simple("Message Processed: ${body}")
                 .endRest();
 
-        from("timer:startBatch?repeatCount=1")
-                .routeId("timerRunOnceId")
-                .to("controlbus:route?routeId=batchMessageRouteId&action=start");
+        from("timer:startBatch?repeatCount=1&delay=10000")
+                .routeId("timerRunOnceIdAt15")
+                .to("controlbus:route?routeId=batchMessageRouteId&action=start")
+                .to("controlbus:route?routeId=batchMessageRouteId&action=status")
+                .to("controlbus:route?routeId=activeMQRouteId&action=status");
+
+        from("timer:startBatch?repeatCount=1&delay=20000")
+                .routeId("timerRunOnceIdAt30")
+                .to("controlbus:route?routeId=activeMQRouteId&action=stop")
+                .to("controlbus:route?routeId=batchMessageRouteId&action=status")
+                .to("controlbus:route?routeId=activeMQRouteId&action=status");
+
 
         from("direct:persistMessage")
                 .routeId("persistMessageRouteId")

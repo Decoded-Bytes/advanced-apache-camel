@@ -1,12 +1,10 @@
 package com.decodedbytes.routes;
 
 import com.decodedbytes.beans.InboundNameAddress;
-import com.decodedbytes.policies.CustomRoutePolicy;
 import org.apache.camel.Exchange;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.rest.RestBindingMode;
-import org.apache.camel.spi.RoutePolicy;
 import org.springframework.stereotype.Component;
 
 import javax.jms.JMSException;
@@ -14,6 +12,7 @@ import java.net.ConnectException;
 
 @Component
 public class NewRestRoute extends RouteBuilder {
+
     @Override
     public void configure() throws Exception {
 
@@ -40,11 +39,11 @@ public class NewRestRoute extends RouteBuilder {
                 .to("controlbus:route?routeId=batchMessageRouteId&action=status")
                 .to("controlbus:route?routeId=activeMQRouteId&action=status");
 
-        from("timer:startBatch?repeatCount=1&delay=20000")
-                .routeId("timerRunOnceIdAt30")
-                .to("controlbus:route?routeId=activeMQRouteId&action=stop")
-                .to("controlbus:route?routeId=batchMessageRouteId&action=status")
-                .to("controlbus:route?routeId=activeMQRouteId&action=status");
+//        from("timer:startBatch?repeatCount=1&delay=20000")
+//                .routeId("timerRunOnceIdAt30")
+//                .to("controlbus:route?routeId=activeMQRouteId&action=stop")
+//                .to("controlbus:route?routeId=batchMessageRouteId&action=status")
+//                .to("controlbus:route?routeId=activeMQRouteId&action=status");
 
 
         from("direct:persistMessage")

@@ -16,7 +16,7 @@ public class NewRestRoute extends RouteBuilder {
     @Override
     public void configure() throws Exception {
 
-        restConfiguration().component("jetty").host("0.0.0.0").port(8080).bindingMode(RestBindingMode.json).enableCORS(true);
+        restConfiguration().component("servlet").host("0.0.0.0").port(8080).bindingMode(RestBindingMode.json).enableCORS(true);
 
         onException(JMSException.class, ConnectException.class)
                 .handled(true)

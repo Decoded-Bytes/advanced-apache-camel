@@ -1,6 +1,7 @@
 package com.decodedbytes.routes;
 
 import com.decodedbytes.policies.CustomRoutePolicy;
+import com.decodedbytes.processor.HouseNumberCityRuleProcessor;
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
 import org.apache.camel.LoggingLevel;
@@ -26,7 +27,8 @@ public class QueueMessageReceiver extends RouteBuilder {
         from("activemq:queue:nameaddressqueue")
                 .autoStartup(false)
                 .routeId("activeMQRouteId")
-                .routePolicy(dependentRoutePolicy, routePolicy)
+                //.routePolicy(dependentRoutePolicy, routePolicy)
+                .process(new HouseNumberCityRuleProcessor())
                 .log(LoggingLevel.INFO, ">>>>>>>>>>> Received Queue Message: ${body}");
     }
 }

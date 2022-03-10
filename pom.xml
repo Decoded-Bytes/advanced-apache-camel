@@ -90,6 +90,13 @@
 		</dependency>
 
 
+		<dependency>
+			<groupId>org.drools</groupId>
+			<artifactId>drools-decisiontables</artifactId>
+			<version>7.66.0.Final</version>
+		</dependency>
+
+
 
 		<dependency>
 			<groupId>mysql</groupId>

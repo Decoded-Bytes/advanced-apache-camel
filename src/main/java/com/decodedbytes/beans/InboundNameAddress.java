@@ -20,13 +20,14 @@ public class InboundNameAddress implements Serializable {
     @Column(name = "house_number")
     private String houseNumber;
 
-    private String street;
-
     private String city;
 
     private String province;
 
     @Column(name = "postal_code")
     private String postalCode;
+
+    @Transient
+    private String preferred;
 
 }
